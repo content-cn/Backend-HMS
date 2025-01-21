@@ -3,7 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/userRoutes'); // Import user routes
+// const userRoutes = require('./routes/userRoutes'); // Import user routes
+
+const authRoutes = require('./Routes/authroutes');
 
 
 const app = express();
@@ -24,8 +26,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.get('/',(req, res)=>{
     res.send("hello Ninja")
 })
-// Use user routes
-app.use('/users', userRoutes);
+
+app.use('/api/auth',authRoutes)
 // Define the port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
