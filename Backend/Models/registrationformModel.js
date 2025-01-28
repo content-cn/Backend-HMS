@@ -1,6 +1,6 @@
 // models/userModel.js
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+
 
 // Define the User Schema
 const registrationFormSchema = new mongoose.Schema({
@@ -12,7 +12,7 @@ const registrationFormSchema = new mongoose.Schema({
     description: { type: String, required: true },
     doctorname: { type: String, required: true },
     status: { type: String, default: 'Pending', required: true }
-});
+},{ timestamps: true });
 
 
 

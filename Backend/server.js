@@ -3,16 +3,17 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
+const fs= require('fs')
+const path = require('path');
 
 const authRoutes = require('./Routes/authroutes');
 const formRoute = require('./Routes/registrationformRoute')
-
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -24,13 +25,15 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.error('Could not connect to MongoDB:', err);
 });
 
-app.get('/',(req, res)=>{
-    res.send("hello Ninja")
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+})
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'admin-dashboard', 'adminDashboard.html'));
 })
 
 app.use('/api/auth',authRoutes)
 app.use('/api/form',formRoute)
-
 // Define the port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
