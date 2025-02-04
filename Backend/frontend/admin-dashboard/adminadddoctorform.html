@@ -65,7 +65,7 @@
 
     <div class="container mt-5">
         <h3 class="text-center mb-4">Doctor Registration Form</h3>
-        <form>
+        <form id="doctorForm">
             <!-- Name -->
             <div class="form-group">
                 <label for="name">Name</label>
@@ -119,14 +119,57 @@
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
-
-
-
-    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Handle form submission
+        document.getElementById("doctorForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const specialty = document.getElementById("specialty").value;
+            const phonenumber = document.getElementById("phonenumber").value;
+            const dateOfBirth = document.getElementById("dateOfBirth").value;
+            const address = document.getElementById("address").value;
+            const email = document.getElementById("email").value;
+            const availability = document.getElementById("availability").value;
+            const degree = document.getElementById("degree").value;
+
+            const doctorData = {
+                name,
+                specialty,
+                phonenumber,
+                dateOfBirth,
+                address,
+                email,
+                availability,
+                degree
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/api/admin/doctorlist/doctors", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(doctorData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Doctor registered successfully!");
+                    // Redirect to another page or clear the form if needed
+                    window.location.href = "/admin-dashboard/admindashboard.html"; // Redirect if needed
+                } else {
+                    alert(result.error || "Something went wrong!");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("There was an error during registration.");
+            }
+        });
+    </script>
 </body>
 
 </html>
-

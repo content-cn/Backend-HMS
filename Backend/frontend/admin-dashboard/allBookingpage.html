@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +25,6 @@
         </div>
     </nav>
 
-
     <div class="container mt-4">
         <!-- Status Count Section -->
         <div class="row mb-3">
@@ -48,49 +45,24 @@
             </div>
         </div>
 
-
         <h3>All Bookings</h3>
         <div class="list-group" id="bookingList">
             <!-- Bookings will be dynamically added here -->
         </div>
     </div>
 
-
     <script>
-        // Dummy array of booking data
-        const bookings = [
-            {
-                _id: '1',
-                name: 'John Doe',
-                email: 'john@example.com',
-                phonenumber: '1234567890',
-                dateOfBirth: '1990-05-15',
-                address: '123 Main St',
-                description: 'Regular appointment',
-                status: 'Pending'
-            },
-            {
-                _id: '2',
-                name: 'Jane Smith',
-                email: 'jane@example.com',
-                phonenumber: '0987654321',
-                dateOfBirth: '1985-10-25',
-                address: '456 Oak Rd',
-                description: 'Follow-up appointment',
-                status: 'Accepted'
-            },
-            {
-                _id: '3',
-                name: 'Emily Johnson',
-                email: 'emily@example.com',
-                phonenumber: '1122334455',
-                dateOfBirth: '1992-07-30',
-                address: '789 Pine Ave',
-                description: 'Consultation',
-                status: 'Completed'
+        // Fetch bookings data from an API
+        async function fetchBookings() {
+            try {
+                const response = await fetch('http://localhost:5000/api/form'); // Replace with your API endpoint
+                const bookings = await response.json();
+console.log(bookings)
+                renderBookings(bookings);
+            } catch (error) {
+                console.error('Error fetching bookings:', error);
             }
-        ];
-
+        }
 
         // Function to render the bookings dynamically
         function renderBookings(bookings) {
@@ -98,17 +70,17 @@
             const pendingCountElement = document.getElementById('pendingCount');
             const acceptedCountElement = document.getElementById('acceptedCount');
             const completedCountElement = document.getElementById('completedCount');
-           
+            
             bookingList.innerHTML = ''; // Clear any existing content
-           
+            
             let pendingCount = 0;
             let acceptedCount = 0;
             let completedCount = 0;
-           
+            
             bookings.forEach(booking => {
                 const bookingItem = document.createElement('div');
                 bookingItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-               
+                
                 bookingItem.innerHTML = `
                     <div>
                         <h5 class="mb-1">Booking #${booking._id}</h5>
@@ -126,7 +98,6 @@
                     </div>
                 `;
 
-
                 // Increment the respective count based on booking status
                 if (booking.status === 'Pending') {
                     pendingCount++;
@@ -136,17 +107,14 @@
                     completedCount++;
                 }
 
-
                 bookingList.appendChild(bookingItem);
             });
-
 
             // Update the status counts
             pendingCountElement.textContent = pendingCount;
             acceptedCountElement.textContent = acceptedCount;
             completedCountElement.textContent = completedCount;
         }
-
 
         // Function to determine the badge class for the status
         function getStatusBadgeClass(status) {
@@ -162,14 +130,46 @@
             }
         }
 
+async function updateStatus(id,status){
+    console.log(id ,status)
+    try {
+                const response = await fetch(`http://localhost:5000/api/form/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: status })
+                });
+                const update = await response.json();
+                window.location.reload();
 
-       
-        // Render bookings when the page loads
-        window.onload = function() {
-            renderBookings(bookings);
-        };
+                alert("status updated successfully")
+            console.log(update)
+            } catch (error) {
+                console.error('Error fetching bookings:', error);
+            }
+
+}
+
+
+
+        // Fetch and render bookings when the page loads
+        window.onload = fetchBookings;
+
+
+
+
+
+
+
     </script>
-
 
 </body>
 </html>
+
+
+
+
+
+
+
