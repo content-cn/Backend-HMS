@@ -18,21 +18,30 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About Us</a>
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                    <li class="nav-item"></li>
+                        <a class="nav-link" href="doctorlist.html">Our Doctor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="bookingappointment.html">Booking</a>
+                    </li>
+                    <!-- Add Sign-Up and Sign-In links -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html">Sign Up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="signup.html">Sign Up</a>
+                        <a class="nav-link" href="signin.html">Sign In</a>
                     </li>
+                   
                 </ul>
+                
             </div>
         </div>
     </nav>
@@ -76,7 +85,7 @@
             const email = document.getElementById('signinEmail').value;
             const password = document.getElementById('signinPassword').value;
     
-            fetch('http://localhost:3000/api/signin', {
+            fetch('http://localhost:5000/api/auth/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
